@@ -16,9 +16,12 @@ fn main() {
 fn read_file(path: String) -> String {
     match std::fs::read_to_string(path) {
         Ok(val) => val,
-        Err(e) => match e.kind() {
-            std::io::ErrorKind::NotFound => String::from(""),
-            _ => String::from(""), // TODO: Panic here
-        },
+        Err(e) => {
+            if let std::io::ErrorKind::NotFound = e.kind() {
+                String::from("")
+            } else {
+                String::from("") //TODO: panic here
+            }
+        }
     }
 }
